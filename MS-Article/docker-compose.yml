@@ -1,0 +1,27 @@
+version: '2'
+services:
+  db:
+    container_name: db1
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_DATABASE:
+    expose:
+      - "3307"
+  spring:
+    container_name: spring-boot-project
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    links:
+      - db:db1
+    depends_on:
+      - db
+    expose:
+      - "8081"
+    ports:
+      - "8081:8081"
+    restart: always
